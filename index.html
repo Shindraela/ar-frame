@@ -19,8 +19,33 @@
     <a-scene embedded arjs>
         <a-image src="assets/1.jpg" rotation="-90 0 0"></a-image>
 
-        <a-marker-camera type='' url="assets/share-marker-pattern.patt"></a-marker-camera>
+        <a-marker-camera type='hijo'></a-marker-camera>
     </a-scene>
+
+    <!-- <button id="myButton" type="button" style="position:absolute;top:0px;left:0px;">Click Me!</button> -->
+
+    <script>
+        var imgArray = ['1.jpg', '2.jpg', '3.jpg', '4.jpg'];
+        var basePath = "assets/";
+
+        function imgRandom() {
+            for (var i = 0; i < 4; i++) {
+                var rand = imgArray[Math.floor(Math.random() * imgArray.length)];
+                imageRand = basePath + rand;
+                var aimage = document.getElementsByTagName("a-image");
+                aimage.src = imageRand;
+            }
+        }
+
+        window.setInterval(function(){
+            imgRandom();
+        }, 2000);
+
+        // var myBtn = document.getElementById('myButton');
+        // myBtn.addEventListener('click', function (event) {
+        //     imgRandom();
+        // });
+    </script>
 
 </body>
 
