@@ -57,7 +57,7 @@
 
     <script>
         (function () {
-            setInterval(function () {
+            setTimeout(function () {
                 $('.a-enter-vr-button').hide();
                 $('#arjsDebugUIContainer').hide();
             }, 100);
@@ -66,34 +66,38 @@
         var persoArray = ['1.jpg', '2.jpg', '3.jpg', '4.jpg'];
         var persoBasePath = "assets/perso/";
         function persoRandom() {
-            setInterval(function () {
-                for (var i = 0; i < 4; i++) {
-                    var randPerso = persoArray[Math.floor(Math.random() * persoArray.length)];
-                    imagePersoRand = persoBasePath + randPerso;
-                    $('#1').attr('src', imagePersoRand);
-                }
-            }, 5000);
+            var persoInterval;
+            for (var i = 0; i < 4; i++) {
+                var randPerso = persoArray[Math.floor(Math.random() * persoArray.length)];
+                imagePersoRand = persoBasePath + randPerso;
+                $('#1').attr('src', imagePersoRand);
+            }
         }
 
         var artArray = ['1.jpg', '2.jpg', '3.jpg', '4.jpg'];
         var artBasePath = "assets/art/";
         function art() {
-            setInterval(function () {
-                for (var i = 0; i < 4; i++) {
-                    imageArt = artBasePath + artArray[i];
-                    $('#1').attr('src', imageArt);
-                }
-            }, 5000);
+            var artInterval;
+            for (var i = 0; i < 4; i++) {
+                imageArt = artBasePath + artArray[i];
+                $('#1').attr('src', imageArt);
+            }
         }
 
         $('#btnPersoRandom').on('click', function () {
             alert("Mode photos personnelles random activé avec succès");
-            persoRandom();
+            if (typeof artInterval !== "undefined") {
+                clearInterval(artInterval);
+            }
+            persoInterval = setInterval(persoRandom, 5000);
         });
 
         $('#btnArt').on('click', function () {
             alert("Mode art activé avec succès");
-            art();
+            if (typeof imgPersoInterval !== "undefined") {
+                clearInterval(imgPersoInterval);
+            }
+            artInterval = setInterval(art, 5000);
         });
     </script>
 </body>
