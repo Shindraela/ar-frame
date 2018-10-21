@@ -4,55 +4,98 @@
 <head>
     <meta charset="utf-8">
     <title>ar-frame</title>
-    <!-- include A-Frame obviously -->
+    <!-- Include A-Frame -->
     <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
-    <!-- include ar.js for A-Frame -->
+    <!-- Include ar.js for A-Frame -->
     <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
+    <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            margin : 0px; 
+            overflow: hidden;
+        }
+
+        #buttons {
+            position:absolute;
+            top:10px;
+            left:10px;
+        }
+
+        #btnPersoRandom {
+            position:relative;
+            top:10px;
+            left:10px;
+        }
+
+        #btnArt {
+            position:relative;
+            top:10px;
+            left:10px;
+        }
+    </style>
 </head>
 
-<body style='margin : 0px; overflow: hidden;'>
+<body>
 
     <script>
         THREEx.ArToolkitContext.baseURL = 'https://rawgit.com/jeromeetienne/ar.js/master/three.js/';
+    </script>
 
-        (function() {
+    <a-scene embedded arjs>
+        <a-image id="1" src="assets/fond.jpg" rotation="-90 0 0"></a-image>
+
+        <a-marker-camera type='hijo'></a-marker-camera>
+    </a-scene>
+
+    <div id="buttons">
+        <button id="btnPersoRandom" type="button">Mode perso random</button>
+        <button id="btnArt" type="button">Mode art</button>
+    </div>
+
+    <script>
+        (function () {
             setInterval(function () {
                 $('.a-enter-vr-button').hide();
                 $('#arjsDebugUIContainer').hide();
             }, 100);
         })();
 
-        var imgArray = ['1.jpg', '2.jpg', '3.jpg', '4.jpg'];
-        var basePath = "assets/";
-
-        function imgRandom() {
-            for (var i = 0; i < 4; i++) {
-                var rand = imgArray[Math.floor(Math.random() * imgArray.length)];
-                imageRand = basePath + rand;
-                $('#1').attr('src',imageRand);
-            }
+        var persoArray = ['1.jpg', '2.jpg', '3.jpg', '4.jpg'];
+        var persoBasePath = "assets/perso/";
+        function persoRandom() {
+            setInterval(function () {
+                for (var i = 0; i < 4; i++) {
+                    var randPerso = persoArray[Math.floor(Math.random() * persoArray.length)];
+                    imagePersoRand = persoBasePath + randPerso;
+                    $('#1').attr('src', imagePersoRand);
+                }
+            }, 5000);
         }
-        
-        setInterval(function () {
-            imgRandom();
-        }, 5000);
 
-        // var myBtn = document.getElementById('myButton');
-        // myBtn.addEventListener('click', function (event) {
-        //     imgRandom();
-        // });
+        var artArray = ['1.jpg', '2.jpg', '3.jpg', '4.jpg'];
+        var artBasePath = "assets/art/";
+        function art() {
+            setInterval(function () {
+                for (var i = 0; i < 4; i++) {
+                    imageArt = artBasePath + artArray[i];
+                    $('#1').attr('src', imageArt);
+                }
+            }, 5000);
+        }
+
+        $('#btnPersoRandom').on('click', function () {
+            alert("Mode photos personnelles random activé avec succès");
+            persoRandom();
+        });
+
+        $('#btnArt').on('click', function () {
+            alert("Mode art activé avec succès");
+            art();
+        });
     </script>
-
-    <a-scene embedded arjs>
-        <a-image id="1" src="assets/1.jpg" rotation="-90 0 0"></a-image>
-
-        <a-marker-camera type='hijo'></a-marker-camera>
-    </a-scene>
-
-    <!-- <button id="myButton" type="button" style="position:absolute;top:0px;left:0px;">Click Me!</button> -->
-
 </body>
 
 </html>
