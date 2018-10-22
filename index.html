@@ -11,6 +11,13 @@
     <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
+    <!-- Materialize Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Materialize Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- Sweetalert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 
     <style>
         body {
@@ -51,8 +58,8 @@
     </a-scene>
 
     <div id="buttons">
-        <button id="btnPersoRandom" type="button">Mode perso random</button>
-        <button id="btnArt" type="button">Mode art</button>
+        <button class="waves-effect waves-light btn" id="btnPersoRandom" type="button">Mode perso random</button>
+        <button class="waves-effect waves-light btn" id="btnArt" type="button">Mode art</button>
     </div>
 
     <script>
@@ -63,41 +70,55 @@
             }, 100);
         })();
 
-        var persoArray = ['1.jpg', '2.jpg', '3.jpg', '4.jpg'];
+        var artInterval;
+        var imgPersoInterval;
+
+        var artArray = ['art1.jpg', 'art2.jpg', 'art3.jpg', 'art4.jpg'];
+        var artBasePath = "assets/art/";
+        function art() {
+            for (var i = 0; i < 4; i++) {
+                var randArt = artArray[Math.floor(Math.random() * artArray.length)];
+                imageArt = artBasePath + randArt;
+            }
+
+            // Condition for not displaying same pic twice
+            if (imageArt != $('#1').attr('src')) {
+                $('#1').attr('src', imageArt);
+            } else {
+                art();
+            }
+        }
+
+        var persoArray = ['perso1.jpg', 'perso2.jpg', 'perso3.jpg', 'perso4.jpg'];
         var persoBasePath = "assets/perso/";
         function persoRandom() {
-            var persoInterval;
             for (var i = 0; i < 4; i++) {
                 var randPerso = persoArray[Math.floor(Math.random() * persoArray.length)];
                 imagePersoRand = persoBasePath + randPerso;
+            }
+
+            // Condition for not displaying same pic twice
+            if (imagePersoRand != $('#1').attr('src')) {
                 $('#1').attr('src', imagePersoRand);
+            } else {
+                persoRandom();
             }
         }
-
-        var artArray = ['1.jpg', '2.jpg', '3.jpg', '4.jpg'];
-        var artBasePath = "assets/art/";
-        function art() {
-            var artInterval;
-            for (var i = 0; i < 4; i++) {
-                imageArt = artBasePath + artArray[i];
-                $('#1').attr('src', imageArt);
-            }
-        }
-
-        $('#btnPersoRandom').on('click', function () {
-            alert("Mode photos personnelles random activé avec succès");
-            if (typeof artInterval !== "undefined") {
-                clearInterval(artInterval);
-            }
-            persoInterval = setInterval(persoRandom, 5000);
-        });
 
         $('#btnArt').on('click', function () {
-            alert("Mode art activé avec succès");
+            swal("Mode art activé avec succès");
+            artInterval = setInterval(art, 5000);
             if (typeof imgPersoInterval !== "undefined") {
                 clearInterval(imgPersoInterval);
             }
-            artInterval = setInterval(art, 5000);
+        });
+
+        $('#btnPersoRandom').on('click', function () {
+            swal("Mode photos personnelles random activé avec succès");
+            imgPersoInterval = setInterval(persoRandom, 5000);
+            if (typeof artInterval !== "undefined") {
+                clearInterval(artInterval);
+            }
         });
     </script>
 </body>
