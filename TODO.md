@@ -1,9 +1,9 @@
 # TODO AR-Frame
 
-- Utilisation de marker perso
-
-- Vérifier comportement avec plusieurs marker
+- Interactions avec la scene
 
 - Rendre le tout plus beau
 
 - Mobile
+
+- Choisir temps entre les images

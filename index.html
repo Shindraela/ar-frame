@@ -30,18 +30,6 @@
             top:10px;
             left:10px;
         }
-
-        #btnPersoRandom {
-            position:relative;
-            top:10px;
-            left:10px;
-        }
-
-        #btnArt {
-            position:relative;
-            top:10px;
-            left:10px;
-        }
     </style>
 </head>
 
@@ -52,14 +40,22 @@
     </script>
 
     <a-scene embedded arjs>
-        <a-image id="1" src="assets/fond.jpg" rotation="-90 0 0"></a-image>
+        <a-marker preset='hiro'>
+            <a-image id="1" src="assets/fond.jpg" rotation="-90 0 0" position="0 0.5 -1.5"></a-image>
+        </a-marker>
 
-        <a-marker-camera type='hijo'></a-marker-camera>
+        <a-marker preset='kanji'>
+            <a-image id="2" src="assets/fond.jpg" rotation="-90 0 0" position="0 0.5 -1.5"></a-image>
+        </a-marker>
+
+        <!-- <a-marker-camera type='pattern' url="assets/markers/mona-marker-pattern.patt"></a-marker-camera> -->
     </a-scene>
 
     <div id="buttons">
-        <button class="waves-effect waves-light btn" id="btnPersoRandom" type="button">Mode perso random</button>
-        <button class="waves-effect waves-light btn" id="btnArt" type="button">Mode art</button>
+        <button class="waves-effect waves-light btn" id="btnPerso1" type="button">Cadre 1 : Mode perso</button>
+        <button class="waves-effect waves-light btn" id="btnArt1" type="button">Cadre 1 : Mode art</button>
+        <button class="waves-effect waves-light btn" id="btnPerso2" type="button">Cadre 2 : Mode perso</button>
+        <button class="waves-effect waves-light btn" id="btnArt2" type="button">Cadre 2 : Mode art</button>
     </div>
 
     <script>
@@ -70,12 +66,18 @@
             }, 100);
         })();
 
-        var artInterval;
-        var imgPersoInterval;
-
+        var artInterval1;
+        var persoInterval1;
+        var artInterval2;
+        var persoInterval2;
         var artArray = ['art1.jpg', 'art2.jpg', 'art3.jpg', 'art4.jpg'];
         var artBasePath = "assets/art/";
-        function art() {
+        var persoArray = ['perso1.jpg', 'perso2.jpg', 'perso3.jpg', 'perso4.jpg'];
+        var persoBasePath = "assets/perso/";
+
+        // Function to display images for the art mode
+        function art1() {
+            // Loop to display a random image
             for (var i = 0; i < 4; i++) {
                 var randArt = artArray[Math.floor(Math.random() * artArray.length)];
                 imageArt = artBasePath + randArt;
@@ -85,39 +87,103 @@
             if (imageArt != $('#1').attr('src')) {
                 $('#1').attr('src', imageArt);
             } else {
-                art();
+                art1();
             }
         }
-
-        var persoArray = ['perso1.jpg', 'perso2.jpg', 'perso3.jpg', 'perso4.jpg'];
-        var persoBasePath = "assets/perso/";
-        function persoRandom() {
+        function art2() {
+            // Loop to display a random image
             for (var i = 0; i < 4; i++) {
-                var randPerso = persoArray[Math.floor(Math.random() * persoArray.length)];
-                imagePersoRand = persoBasePath + randPerso;
+                var randArt = artArray[Math.floor(Math.random() * artArray.length)];
+                imageArt = artBasePath + randArt;
             }
 
             // Condition for not displaying same pic twice
-            if (imagePersoRand != $('#1').attr('src')) {
-                $('#1').attr('src', imagePersoRand);
+            if (imageArt != $('#2').attr('src')) {
+                $('#2').attr('src', imageArt);
             } else {
-                persoRandom();
+                art2();
             }
         }
 
-        $('#btnArt').on('click', function () {
-            swal("Mode art activé avec succès");
-            artInterval = setInterval(art, 5000);
-            if (typeof imgPersoInterval !== "undefined") {
-                clearInterval(imgPersoInterval);
+        // Function to display images for the perso mode
+        function perso1() {
+            // Loop to display a random image
+            for (var i = 0; i < 4; i++) {
+                var randPerso = persoArray[Math.floor(Math.random() * persoArray.length)];
+                imagePerso = persoBasePath + randPerso;
+            }
+
+            // Condition for not displaying same pic twice
+            if (imagePerso != $('#1').attr('src')) {
+                $('#1').attr('src', imagePerso);
+            } else {
+                perso1();
+            }
+        }
+        function perso2() {
+            // Loop to display a random image
+            for (var i = 0; i < 4; i++) {
+                var randPerso = persoArray[Math.floor(Math.random() * persoArray.length)];
+                imagePerso = persoBasePath + randPerso;
+            }
+
+            // Condition for not displaying same pic twice
+            if (imagePerso != $('#2').attr('src')) {
+                $('#2').attr('src', imagePerso);
+            } else {
+                perso2();
+            }
+        }
+
+        // Event Listener on btnArt to launch art mode and clear the interval of perso mode if it exists
+        $('#btnArt1').on('click', function () {
+            swal({
+                title: "Mode art activé avec succès pour le cadre 1",
+                //buttons: false,
+                timer: 3000
+            });
+            artInterval1 = setInterval(art1, 5000);
+            if (typeof persoInterval1 !== "undefined") {
+                clearInterval(persoInterval1);
             }
         });
 
-        $('#btnPersoRandom').on('click', function () {
-            swal("Mode photos personnelles random activé avec succès");
-            imgPersoInterval = setInterval(persoRandom, 5000);
-            if (typeof artInterval !== "undefined") {
-                clearInterval(artInterval);
+        // Event Listener on btnArt to launch art mode and clear the interval of perso mode if it exists
+        $('#btnArt2').on('click', function () {
+            swal({
+                title: "Mode art activé avec succès pour le cadre 2",
+                //buttons: false,
+                timer: 3000
+            });
+            artInterval2 = setInterval(art2, 5000);
+            if (typeof persoInterval2 !== "undefined") {
+                clearInterval(persoInterval2);
+            }
+        });
+
+        // Event Listener on btnPersoRandom to launch perso mode and clear the interval of art mode if it exists
+        $('#btnPerso1').on('click', function () {
+            swal({
+                title: "Mode perso random activé avec succès pour le cadre 1",
+                //buttons: false,
+                timer: 3000
+            });
+            persoInterval1 = setInterval(perso1, 5000);
+            if (typeof artInterval1 !== "undefined") {
+                clearInterval(artInterval1);
+            }
+        });
+
+        // Event Listener on btnPersoRandom to launch perso mode and clear the interval of art mode if it exists
+        $('#btnPerso2').on('click', function () {
+            swal({
+                title: "Mode perso random activé avec succès pour le cadre 2",
+                //buttons: false,
+                timer: 3000
+            });
+            persoInterval2 = setInterval(perso2, 5000);
+            if (typeof artInterval2 !== "undefined") {
+                clearInterval(artInterval2);
             }
         });
     </script>
