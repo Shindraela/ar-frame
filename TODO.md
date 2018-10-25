@@ -4,6 +4,6 @@
 
 - Rendre le tout plus beau
 
-- Mobile
+- Donner à l'utilisateur le choix du temps d'attente entre les phoyos affichées
 
-- Choisir temps entre les images
+- Mobile (ngrock pour l'instant)
